@@ -3,7 +3,7 @@ import PrimeSubmission from './components/PrimeSubmission'
 import Pagination from './components/Pagination.js'
 import Table from './components/Table.js'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const App = () => {
 
@@ -13,6 +13,20 @@ const App = () => {
   const [primeInputText, setPrimeInputText] = useState('')
   const [recentPrimeInput, setRecentPrimeInput] = useState('')
   const [validationText, setValidationText] = useState('')
+  const [maxPrime, setMaxPrime] = useState(1)
+
+  useEffect( async() => {
+    // Fetch data from the server
+    const maxFetch = async () => {
+
+      const res = await fetch(`http://localhost:8080/max`)
+      const data = await res.json()
+      setMaxPrime(data.max)
+      return data.max
+    }
+
+    maxFetch()
+  }, [])
 
   // Fetch data from the server
   const serverFetch = async ({ number, pageNumber }) => {
@@ -27,6 +41,8 @@ const App = () => {
     return data
   }
 
+
+
   // Validate the user's number request
   const validateUserRequest = ({ primeInputText }) => {
 
@@ -36,6 +52,11 @@ const App = () => {
 
     if (primeInputText < 2) {
       return "Value must be >= 2 (the first primary number)"
+    }
+
+    if (primeInputText > maxPrime)
+    {
+      return "This service only supports prime up-to " + maxPrime
     }
 
     return "" // No error message to show
