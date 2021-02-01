@@ -1,10 +1,12 @@
 import Header from './components/Header.js'
 import PrimeSubmission from './components/PrimeSubmission'
+import Table from './components/Table.js'
 
 import { useState, useEffect } from 'react'
 
 const App = () => {
 
+  const [primeNumbers, setPrimeNumbers] = useState([])
   const [primeInputText, setPrimeInputText] = useState('')
   const [validationText, setValidationText] = useState('')
 
@@ -13,6 +15,8 @@ const App = () => {
 
     const res = await fetch(`http://localhost:8080/prime-range?from=2&to=${Math.floor(number)}&page=${pageNumber - 1}&size=80`)
     const data = await res.json()
+
+    setPrimeNumbers(data.primeNumbers)
 
     return data
   }
@@ -60,6 +64,10 @@ const App = () => {
         setPrimeInputText={setPrimeInputText}
         primeInputText={primeInputText} />
 
+      <Table
+        primeNumbers={primeNumbers}
+        colourPatterns={['#c9c9c9', '#f2f2f2']} />
+        
     </div>
   );
 }
