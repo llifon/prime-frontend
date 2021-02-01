@@ -1,11 +1,14 @@
-import './App.css';
+import Header from './components/Header.js'
 
-function App() {
+const App = () => {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        Hello
-      </header>
+    <div className="container">
+
+      <Header
+        title="Prime Generator"
+        description="Need to know about all the prime numbers which exist upto a given number? Great, just enter a number into the box below and we'll take care of finding them..." />
+
     </div>
   );
 }
